@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth/client';
 import { Button } from '@/components/ui/button';
+import { CreateLinkDialog } from './create-link-dialog';
 
 export function DashboardView() {
   const router = useRouter();
@@ -68,22 +69,7 @@ export function DashboardView() {
               Manage and track all your short links in one place.
             </p>
           </div>
-          <Button size="sm" className="gap-1.5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="size-4"
-            >
-              <path d="M5 12h14" />
-              <path d="M12 5v14" />
-            </svg>
-            Create New Link
-          </Button>
+          <CreateLinkDialog />
         </div>
 
         {/* Placeholder content area */}
