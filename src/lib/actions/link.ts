@@ -9,6 +9,7 @@ import {revalidatePath} from 'next/cache';
 type ActionResult<T>= {data:T; error:null} | {data:null; error:string};
 
 export async function createLinkAction(
+    _prevState:ActionResult<{id:string}> | null,
     formData:FormData
 ):Promise<ActionResult<{id:string}>>{
     const session = await authClient.getSession();

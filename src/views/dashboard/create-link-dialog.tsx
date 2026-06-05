@@ -23,7 +23,8 @@ import { useActionState } from 'react'
 import { createLinkAction } from '@/lib/actions/link'
 
 export function CreateLinkDialog() {
-  
+  const [state, formAction, pending] = useActionState(createLinkAction, null)
+
   return (
     <DialogRoot>
       <DialogTrigger render={
@@ -78,7 +79,7 @@ export function CreateLinkDialog() {
             </CardHeader>
 
             <CardContent className="pt-6">
-              <form className="flex flex-col gap-5">
+              <form id="create-link-form" action={formAction} className="flex flex-col gap-5">
                 {/* Destination URL */}
                 <div className="flex flex-col gap-1.5">
                   <Label htmlFor="longUrl">
@@ -130,6 +131,10 @@ export function CreateLinkDialog() {
                     className="h-10"
                   />
                 </div>
+
+                {state?.error && (
+                  <p className="text-sm text-destructive">{state.error}</p>
+                )}
               </form>
             </CardContent>
 
@@ -139,7 +144,7 @@ export function CreateLinkDialog() {
                   Cancel
                 </Button>
               } />
-              <Button size="sm" type="submit" form="create-link-form" className="gap-1.5">
+              <Button size="sm" type="submit" form="create-link-form" disabled={pending} className="gap-1.5">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 24 24"
@@ -153,7 +158,7 @@ export function CreateLinkDialog() {
                   <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                   <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
                 </svg>
-                Create Link
+                {pending ? 'Creating...' : 'Create Link'}
               </Button>
             </CardFooter>
           </Card>
