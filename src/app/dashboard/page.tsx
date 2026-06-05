@@ -1,9 +1,14 @@
-import { auth } from '@/lib/auth/server';
-import { getLinksForUser } from '@/lib/db/queries/links';
+import { Suspense } from 'react';
 import { DashboardView } from '@/views/dashboard/dashboard.view';
+import { LinksTableServer } from '@/views/dashboard/links-table-server';
+import { LinksTableSkeleton } from '@/views/dashboard/links-table-skeleton';
 
-export default async function DashboardPage() {
-  const { data: session } = await auth.getSession();
-  const links = session?.user ? await getLinksForUser(session.user.id) : [];
-  return <DashboardView links={links} />;
+export default function DashboardPage() {
+  return (
+    <DashboardView>
+      <Suspense fallback={<LinksTableSkeleton />}>
+        <LinksTableServer />
+      </Suspense>
+    </DashboardView>
+  );
 }

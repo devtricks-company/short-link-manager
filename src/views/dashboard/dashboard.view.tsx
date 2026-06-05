@@ -4,18 +4,8 @@ import { useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth/client';
 import { Button } from '@/components/ui/button';
 import { CreateLinkDialog } from './create-link-dialog';
-import { LinksTable } from './links-table';
 
-type Link = {
-  id: string;
-  slug: string;
-  longUrl: string;
-  title: string | null;
-  clickCount: number;
-  createdAt: Date;
-};
-
-export function DashboardView({ links }: { links: Link[] }) {
+export function DashboardView({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const { data: session } = authClient.useSession();
 
@@ -82,7 +72,7 @@ export function DashboardView({ links }: { links: Link[] }) {
           <CreateLinkDialog />
         </div>
 
-        <LinksTable links={links} />
+        {children}
       </main>
     </div>
   );
