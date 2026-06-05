@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { Copy, Check, ExternalLink, Trash2 } from 'lucide-react';
+import { Copy, Check, ExternalLink, Trash2, Loader2 } from 'lucide-react';
 import {
   Table,
   TableHeader,
@@ -11,6 +11,15 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
+import {
+  DialogRoot,
+  DialogBackdrop,
+  DialogPortal,
+  DialogPopup,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from '@/components/ui/dialog';
 import { toast } from 'sonner';
 import { deleteLinkAction } from '@/lib/actions/link';
 
@@ -45,6 +54,7 @@ function CopyButton({ slug }: { slug: string }) {
 }
 
 function DeleteButton({ id }: { id: string }) {
+  const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   function handleDelete() {
@@ -54,21 +64,47 @@ function DeleteButton({ id }: { id: string }) {
         toast.error(result.error);
       } else {
         toast.success('Link deleted');
+        setOpen(false);
       }
     });
   }
 
   return (
-    <Button
-      variant="ghost"
-      size="icon-sm"
-      onClick={handleDelete}
-      disabled={isPending}
-      aria-label="Delete link"
-      className="text-muted-foreground hover:text-destructive"
-    >
-      <Trash2 className="size-3.5" />
-    </Button>
+    <DialogRoot open={open} onOpenChange={setOpen}>
+      <Button
+        variant="ghost"
+        size="icon-sm"
+        onClick={() => setOpen(true)}
+        aria-label="Delete link"
+        className="text-muted-foreground hover:text-destructive"
+      >
+        <Trash2 className="size-3.5" />
+      </Button>
+      <DialogPortal>
+        <DialogBackdrop />
+        <DialogPopup className="rounded-xl border bg-background p-6 shadow-lg">
+          <DialogTitle className="mb-2">Delete link?</DialogTitle>
+          <DialogDescription className="mb-6">
+            This action cannot be undone. The short link will stop working immediately.
+          </DialogDescription>
+          <div className="flex justify-end gap-2">
+            <DialogClose render={
+              <Button variant="outline" disabled={isPending}>
+                Cancel
+              </Button>
+            } />
+            <Button
+              variant="destructive"
+              disabled={isPending}
+              onClick={handleDelete}
+            >
+              {isPending && <Loader2 className="mr-2 size-4 animate-spin" />}
+              Delete
+            </Button>
+          </div>
+        </DialogPopup>
+      </DialogPortal>
+    </DialogRoot>
   );
 }
 
