@@ -59,13 +59,31 @@ export function DashboardView() {
 
       {/* Main content */}
       <main className="max-w-5xl mx-auto px-4 py-10">
-        <div className="flex flex-col gap-1 mb-8">
-          <h1 className="text-2xl font-bold tracking-tight">
-            Welcome{session?.user?.name ? `, ${session.user.name}` : ''}
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Manage and track all your short links in one place.
-          </p>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex flex-col gap-1">
+            <h1 className="text-2xl font-bold tracking-tight">
+              Welcome{session?.user?.name ? `, ${session.user.name}` : ''}
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Manage and track all your short links in one place.
+            </p>
+          </div>
+          <Button size="sm" className="gap-1.5">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="size-4"
+            >
+              <path d="M5 12h14" />
+              <path d="M12 5v14" />
+            </svg>
+            Create New Link
+          </Button>
         </div>
 
         {/* Placeholder content area */}
