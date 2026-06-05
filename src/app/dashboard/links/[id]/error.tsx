@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 
@@ -32,9 +32,9 @@ export default function LinkDetailsError({
           <Button onClick={reset} variant="outline" size="sm">
             Try again
           </Button>
-          <Button asChild size="sm">
-            <Link href="/dashboard">Back to dashboard</Link>
-          </Button>
+          <Link href="/dashboard" className={buttonVariants({ size: 'sm' })}>
+            Back to dashboard
+          </Link>
         </div>
       </div>
     </div>
