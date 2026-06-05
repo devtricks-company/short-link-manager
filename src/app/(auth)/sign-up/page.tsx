@@ -72,7 +72,7 @@ export default function SignUpPage() {
                   type="text"
                   placeholder="Jane Smith"
                   autoComplete="name"
-                  required
+                
                   className="h-10"
                 />
               </div>
@@ -86,7 +86,7 @@ export default function SignUpPage() {
                   type="email"
                   placeholder="jane@example.com"
                   autoComplete="email"
-                  required
+              
                   className="h-10"
                 />
               </div>
@@ -100,7 +100,7 @@ export default function SignUpPage() {
                   type="password"
                   placeholder="••••••••"
                   autoComplete="new-password"
-                  required
+                 
                   minLength={8}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -118,7 +118,7 @@ export default function SignUpPage() {
                   type="password"
                   placeholder="••••••••"
                   autoComplete="new-password"
-                  required
+                 
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   aria-invalid={passwordMismatch || undefined}

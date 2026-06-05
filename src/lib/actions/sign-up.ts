@@ -1,23 +1,28 @@
 'use server'
 import { auth } from "../auth/server";
 import { redirect } from "next/navigation";
+import { signUpSchema } from "../validations/sign-up";
 
 
 export async function signUpWithEmail(
     _prevState:{error:string} | null,
     formData:FormData
 ){
-    const email = formData.get('email') as string;
-    if(!email)
-        return { error: "Email address must be provided." };
-
-    const {error} = await auth.signUp.email({
-        email,
-        name: formData.get('name') as string,
-        password: formData.get('password') as string
+    const parsed = signUpSchema.safeParse({
+        name: formData.get('name'),
+        email: formData.get('email'),
+        password: formData.get('password'),
+        confirmPassword: formData.get('confirmPassword'),
     });
 
-    if(error)
+    if (!parsed.success)
+        return { error: parsed.error.issues[0].message };
+
+    const { name, email, password } = parsed.data;
+
+    const { error } = await auth.signUp.email({ email, name, password });
+
+    if (error)
         return { error: error.message || 'Failed to create account' };
 
     redirect('/');
