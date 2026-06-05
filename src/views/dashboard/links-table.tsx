@@ -38,7 +38,7 @@ type LinksTableProps = {
 
 function CopyButton({ slug }: { slug: string }) {
   const [copied, setCopied] = useState(false);
-  const shortUrl = `${window.location.origin}/${slug}`;
+  const shortUrl = `${window.location.origin}/r/${slug}`;
 
   async function handleCopy() {
     await navigator.clipboard.writeText(shortUrl);
