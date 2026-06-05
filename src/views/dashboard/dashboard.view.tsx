@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth/client';
 import { Button } from '@/components/ui/button';
+import { CreateLinkDialog } from './create-link-dialog';
 
 export function DashboardView() {
   const router = useRouter();
@@ -59,13 +60,16 @@ export function DashboardView() {
 
       {/* Main content */}
       <main className="max-w-5xl mx-auto px-4 py-10">
-        <div className="flex flex-col gap-1 mb-8">
-          <h1 className="text-2xl font-bold tracking-tight">
-            Welcome{session?.user?.name ? `, ${session.user.name}` : ''}
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Manage and track all your short links in one place.
-          </p>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex flex-col gap-1">
+            <h1 className="text-2xl font-bold tracking-tight">
+              Welcome{session?.user?.name ? `, ${session.user.name}` : ''}
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Manage and track all your short links in one place.
+            </p>
+          </div>
+          <CreateLinkDialog />
         </div>
 
         {/* Placeholder content area */}
