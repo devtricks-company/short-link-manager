@@ -2,7 +2,7 @@
 
 import { createLinkSchema } from "@/lib/validations/link";
 import { createLink } from "@/lib/db/queries/links";
-import {authClient} from '@/lib/auth/client';
+import { auth } from '@/lib/auth/server';
 import { nanoid } from "nanoid";
 import {revalidatePath} from 'next/cache';
 
@@ -12,8 +12,8 @@ export async function createLinkAction(
     _prevState:ActionResult<{id:string}> | null,
     formData:FormData
 ):Promise<ActionResult<{id:string}>>{
-    const session = await authClient.getSession();
-    if(!session) return {data:null, error:'Unauthorized'};
+    const { data: session } = await auth.getSession();
+    if(!session?.user) return {data:null, error:'Unauthorized'};
     const parsed = createLinkSchema.safeParse({
         longUrl:formData.get('longUrl'),
         slug:formData.get('slug') || undefined,
@@ -28,7 +28,7 @@ export async function createLinkAction(
 
     try {
         const link = await createLink({
-            userId:session.data?.user.id as string,
+            userId:session.user.id,
             slug,
             longUrl:parsed.data.longUrl,
             title:parsed.data.title || '' 
