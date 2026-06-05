@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { inter } from "./ui/font";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,10 +29,13 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${inter.className}  h-full antialiased`}
+      suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
-        {children}
-        <Toaster richColors position="bottom-left" />
+        <ThemeProvider>
+          {children}
+          <Toaster richColors position="bottom-left" />
+        </ThemeProvider>
       </body>
     </html>
   );

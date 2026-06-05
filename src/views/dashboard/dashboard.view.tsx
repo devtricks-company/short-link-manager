@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth/client';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/theme-toggle';
 import { CreateLinkDialog } from './create-link-dialog';
 
 export function DashboardView({ children }: { children: React.ReactNode }) {
@@ -46,6 +47,7 @@ export function DashboardView({ children }: { children: React.ReactNode }) {
                 {session.user.email}
               </span>
             )}
+            <ThemeToggle />
             <Button
               variant="outline"
               size="sm"
