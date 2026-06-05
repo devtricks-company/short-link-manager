@@ -1,7 +1,7 @@
 'use server'
 
 import { createLinkSchema } from "@/lib/validations/link";
-import { createLink } from "@/lib/db/queries/links";
+import { createLink, deleteLinkById } from "@/lib/db/queries/links";
 import { auth } from '@/lib/auth/server';
 import { nanoid } from "nanoid";
 import {revalidatePath} from 'next/cache';
@@ -40,5 +40,19 @@ export async function createLinkAction(
             return { data: null, error: 'That slug is already taken' }
                  
         return { data: null, error: 'Something went wrong' }
+    }
+}
+
+export async function deleteLinkAction(id: string): Promise<ActionResult<{ id: string }>> {
+    const { data: session } = await auth.getSession();
+    if (!session?.user) return { data: null, error: 'Unauthorized' };
+
+    try {
+        const deleted = await deleteLinkById(id, session.user.id);
+        if (!deleted) return { data: null, error: 'Link not found' };
+        revalidatePath('/dashboard');
+        return { data: { id: deleted.id }, error: null };
+    } catch {
+        return { data: null, error: 'Something went wrong' };
     }
 }

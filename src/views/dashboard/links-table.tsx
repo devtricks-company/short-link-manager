@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Copy, Check, ExternalLink } from 'lucide-react';
+import { useState, useTransition } from 'react';
+import { Copy, Check, ExternalLink, Trash2 } from 'lucide-react';
 import {
   Table,
   TableHeader,
@@ -11,6 +11,8 @@ import {
   TableCell,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
+import { deleteLinkAction } from '@/lib/actions/link';
 
 type Link = {
   id: string;
@@ -42,6 +44,34 @@ function CopyButton({ slug }: { slug: string }) {
   );
 }
 
+function DeleteButton({ id }: { id: string }) {
+  const [isPending, startTransition] = useTransition();
+
+  function handleDelete() {
+    startTransition(async () => {
+      const result = await deleteLinkAction(id);
+      if (result.error) {
+        toast.error(result.error);
+      } else {
+        toast.success('Link deleted');
+      }
+    });
+  }
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon-sm"
+      onClick={handleDelete}
+      disabled={isPending}
+      aria-label="Delete link"
+      className="text-muted-foreground hover:text-destructive"
+    >
+      <Trash2 className="size-3.5" />
+    </Button>
+  );
+}
+
 export function LinksTable({ links }: LinksTableProps) {
   if (links.length === 0) {
     return (
@@ -63,6 +93,7 @@ export function LinksTable({ links }: LinksTableProps) {
             <TableHead>Destination</TableHead>
             <TableHead className="text-right">Clicks</TableHead>
             <TableHead>Created</TableHead>
+            <TableHead />
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -101,6 +132,9 @@ export function LinksTable({ links }: LinksTableProps) {
                   day: 'numeric',
                   year: 'numeric',
                 })}
+              </TableCell>
+              <TableCell className="text-right">
+                <DeleteButton id={link.id} />
               </TableCell>
             </TableRow>
           ))}
