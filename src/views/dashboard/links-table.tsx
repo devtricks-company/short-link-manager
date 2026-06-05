@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { Copy, Check, ExternalLink, Trash2, Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Copy, Check, ExternalLink, Eye, Trash2, Loader2 } from 'lucide-react';
 import {
   Table,
   TableHeader,
@@ -49,6 +50,21 @@ function CopyButton({ slug }: { slug: string }) {
   return (
     <Button variant="ghost" size="icon-sm" onClick={handleCopy} aria-label="Copy short link">
       {copied ? <Check className="size-3.5 text-green-500" /> : <Copy className="size-3.5" />}
+    </Button>
+  );
+}
+
+function ViewButton({ id }: { id: string }) {
+  const router = useRouter();
+  return (
+    <Button
+      variant="ghost"
+      size="icon-sm"
+      onClick={() => router.push(`/dashboard/links/${id}`)}
+      aria-label="View link details"
+      className="text-muted-foreground hover:text-foreground"
+    >
+      <Eye className="size-3.5" />
     </Button>
   );
 }
@@ -170,7 +186,10 @@ export function LinksTable({ links }: LinksTableProps) {
                 })}
               </TableCell>
               <TableCell className="text-right">
-                <DeleteButton id={link.id} />
+                <div className="flex items-center justify-end gap-1">
+                  <ViewButton id={link.id} />
+                  <DeleteButton id={link.id} />
+                </div>
               </TableCell>
             </TableRow>
           ))}

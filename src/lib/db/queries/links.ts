@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { links, clickEvents } from "@/lib/db/schema";
-import { eq, desc, and, sql } from "drizzle-orm";
+import { eq, desc, and, gte, sql } from "drizzle-orm";
 
 
 
@@ -46,4 +46,29 @@ export async function recordClick(linkId: string) {
             .where(eq(links.id, linkId)),
         db.insert(clickEvents).values({ lingId: linkId }),
     ]);
+}
+
+export async function getLinkById(id: string, userId: string) {
+    const [link] = await db
+        .select()
+        .from(links)
+        .where(and(eq(links.id, id), eq(links.userId, userId)))
+        .limit(1);
+    return link ?? null;
+}
+
+export async function getClicksPerDay(linkId: string, days: number = 7) {
+    const since = new Date();
+    since.setDate(since.getDate() - days + 1);
+    since.setHours(0, 0, 0, 0);
+
+    return db
+        .select({
+            day: sql<string>`date_trunc('day', ${clickEvents.clickedAt})::date::text`,
+            count: sql<number>`count(*)::int`,
+        })
+        .from(clickEvents)
+        .where(and(eq(clickEvents.lingId, linkId), gte(clickEvents.clickedAt, since)))
+        .groupBy(sql`date_trunc('day', ${clickEvents.clickedAt})`)
+        .orderBy(sql`date_trunc('day', ${clickEvents.clickedAt})`);
 }
