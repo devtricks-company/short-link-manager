@@ -4,8 +4,18 @@ import { useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth/client';
 import { Button } from '@/components/ui/button';
 import { CreateLinkDialog } from './create-link-dialog';
+import { LinksTable } from './links-table';
 
-export function DashboardView() {
+type Link = {
+  id: string;
+  slug: string;
+  longUrl: string;
+  title: string | null;
+  clickCount: number;
+  createdAt: Date;
+};
+
+export function DashboardView({ links }: { links: Link[] }) {
   const router = useRouter();
   const { data: session } = authClient.useSession();
 
@@ -72,10 +82,7 @@ export function DashboardView() {
           <CreateLinkDialog />
         </div>
 
-        {/* Placeholder content area */}
-        <div className="rounded-xl border border-dashed bg-muted/30 flex items-center justify-center h-64">
-          <p className="text-sm text-muted-foreground">Your links will appear here.</p>
-        </div>
+        <LinksTable links={links} />
       </main>
     </div>
   );
