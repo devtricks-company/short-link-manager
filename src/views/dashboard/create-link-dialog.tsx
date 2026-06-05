@@ -19,14 +19,23 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useActionState } from 'react'
+import { useActionState, useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import { createLinkAction } from '@/lib/actions/link'
 
 export function CreateLinkDialog() {
+  const [open, setOpen] = useState(false)
   const [state, formAction, pending] = useActionState(createLinkAction, null)
 
+  useEffect(() => {
+    if (state?.data) {
+      setOpen(false)
+      toast.success('Link created successfully!')
+    }
+  }, [state])
+
   return (
-    <DialogRoot>
+    <DialogRoot open={open} onOpenChange={setOpen}>
       <DialogTrigger render={
         <Button size="sm" className="gap-1.5">
           <svg
