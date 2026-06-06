@@ -46,7 +46,7 @@ NEON_AUTH_COOKIE_SECRET=<random-32-char-secret>
 ### 3. Push the database schema
 
 ```bash
-pnpm db:push
+npm db:push
 ```
 
 This creates the `links` and `clickEvents` tables in your Neon database. No migration files are generated — the schema in `src/lib/db/schema.ts` is pushed directly.
@@ -54,7 +54,7 @@ This creates the `links` and `clickEvents` tables in your Neon database. No migr
 ### 4. Run the dev server
 
 ```bash
-pnpm dev
+npm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000). Sign up for an account, then go to `/dashboard` to start creating short links.
@@ -65,12 +65,12 @@ Open [http://localhost:3000](http://localhost:3000). Sign up for an account, the
 
 | Command | Description |
 |---|---|
-| `pnpm dev` | Start development server |
-| `pnpm build` | Production build |
-| `pnpm lint` | Run ESLint |
-| `pnpm db:push` | Push schema to database (dev) |
-| `pnpm db:generate` | Generate migration files (prod) |
-| `pnpm db:studio` | Open Drizzle Studio UI |
+| `npm dev` | Start development server |
+| `npm build` | Production build |
+| `npm lint` | Run ESLint |
+| `npm db:push` | Push schema to database (dev) |
+| `npm db:generate` | Generate migration files (prod) |
+| `npm db:studio` | Open Drizzle Studio UI |
 
 ---
 

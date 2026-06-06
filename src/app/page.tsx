@@ -1,65 +1,121 @@
-import Image from "next/image";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Link2, Zap, BarChart3, Shield, ArrowRight } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* Navbar */}
+      <header className="border-b border-border px-6 py-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center justify-center size-8 rounded-lg bg-primary text-primary-foreground">
+              <Link2 className="size-4" />
+            </div>
+            <span className="text-lg font-bold tracking-tight">LinkSnap</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Link href="/sign-in" className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}>
+              Sign in
+            </Link>
+            <Link href="/sign-up" className={cn(buttonVariants({ size: "sm" }))}>
+              Get started
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </header>
+
+      {/* Hero */}
+      <section className="flex-1 flex flex-col items-center justify-center text-center px-6 py-24">
+        <div className="flex items-center gap-2 mb-6 px-3 py-1 rounded-full border border-border bg-muted text-muted-foreground text-xs font-medium">
+          <Zap className="size-3 text-primary" />
+          Fast, smart URL shortening
+        </div>
+
+        <h1 className="text-5xl sm:text-6xl font-bold tracking-tight text-foreground max-w-3xl leading-tight">
+          Snap your links,{" "}
+          <span className="text-primary">share them faster</span>
+        </h1>
+
+        <p className="mt-6 text-lg text-muted-foreground max-w-xl leading-relaxed">
+          LinkSnap turns long, messy URLs into clean vanity slugs you control.
+          Track every click and share with confidence — all in one place.
+        </p>
+
+        <div className="mt-10 flex flex-col sm:flex-row gap-3 justify-center">
+          <Link
+            href="/sign-up"
+            className={cn(buttonVariants({ size: "lg" }), "gap-2 px-6")}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+            Start for free
+            <ArrowRight className="size-4" />
+          </Link>
+          <Link
+            href="/sign-in"
+            className={cn(buttonVariants({ variant: "outline", size: "lg" }), "px-6")}
+          >
+            Sign in to dashboard
+          </Link>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="border-t border-border bg-muted/40 px-6 py-20">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-center text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-12">
+            Everything you need
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-8">
+            <FeatureCard
+              icon={<Link2 className="size-5" />}
+              title="Vanity slugs"
+              description="Pick a memorable, branded short URL instead of a random string of characters."
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <FeatureCard
+              icon={<BarChart3 className="size-5" />}
+              title="Click analytics"
+              description="See exactly how many times each link has been clicked in real time."
+            />
+            <FeatureCard
+              icon={<Shield className="size-5" />}
+              title="Secure & private"
+              description="Your links are tied to your account. Only you can manage and delete them."
+            />
+          </div>
         </div>
-      </main>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-border px-6 py-6">
+        <div className="max-w-6xl mx-auto flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5">
+            <Link2 className="size-3" />
+            <span className="font-semibold">LinkSnap</span>
+          </div>
+          <span>© {new Date().getFullYear()} LinkSnap. All rights reserved.</span>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+function FeatureCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="flex flex-col gap-3 rounded-xl border border-border bg-background p-6">
+      <div className="flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary">
+        {icon}
+      </div>
+      <h3 className="font-semibold text-foreground">{title}</h3>
+      <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
     </div>
   );
 }
